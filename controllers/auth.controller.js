@@ -25,7 +25,8 @@ const signup = async (req, res) => {
             let newUser = new User({
                 username,
                 email,
-                password
+                password,
+                booksCollection:[]
             })
             await newUser.save();
 
