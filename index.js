@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require("./db/db");
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/users.router");
+const auth = require('./middleware/auth');
 
 
 const dotenv = require("dotenv");
@@ -16,7 +17,7 @@ app.use(express.json({ extended: false }))
 
 
 //define routes
-app.use('/api/users', userRouter);
+app.use('/api/user',auth, userRouter);
 app.use("/api/auth", authRouter);
 
 

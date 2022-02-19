@@ -25,9 +25,14 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
 
-    booksCollection: {
-        type: Array
-    },
+    booksCollection: [
+        {
+            bookId: String,
+            cover: String,
+            bookTitle: String,
+            status:String
+        }
+    ],
     
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
