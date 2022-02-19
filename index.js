@@ -7,6 +7,14 @@ dotenv.config();
 
 const app = express();
 
+
+
+app.use(express.json({ extended: false }))
+
+
+//define routes
+app.use('/api/users', require('./routes/users.router'));
+
 app.get('/', (req, res)=>res.send('API running'))
 
 const PORT = process.env.PORT || 5000;
