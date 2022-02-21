@@ -3,12 +3,14 @@ const connectDB = require("./db/db");
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/users.router");
 const auth = require('./middleware/auth');
+const cors = require('cors');
 
 const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(cors());
 
 
 
