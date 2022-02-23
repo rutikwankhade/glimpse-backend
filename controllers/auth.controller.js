@@ -7,13 +7,17 @@ const jwt = require("jsonwebtoken");
 const getUserByToken = async (req, res) => {
 
     try {
+
         const user = await User.findById(req.user.id).select('-password')
-        res.json(user)
+        res.json({
+            user: user,
+            message: 'user loaded successfully'
+        })
 
     } catch (err) {
-        res.status(500).send('Server error')
+        res.status(500).json("server error")
 
-    } 
+    }
 
 };
 
@@ -40,7 +44,7 @@ const signup = async (req, res) => {
                 username,
                 email,
                 password,
-                booksCollection:[]
+                booksCollection: []
             })
             await newUser.save();
 
@@ -114,12 +118,12 @@ const login = async (req, res) => {
                 res.json({
                     success: true,
                     message: "login successfully",
-                     user: {
-                            userId: user._id,
-                            username: user.username,
-                            email: user.email
-                        },
-                  
+                    user: {
+                        userId: user._id,
+                        username: user.username,
+                        email: user.email
+                    },
+
                     token
                 })
             });
