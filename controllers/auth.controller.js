@@ -100,6 +100,11 @@ const login = async (req, res) => {
                 res.json({
                     success: true,
                     message: "login successfully",
+                     user: {
+                            userId: user._id,
+                            username: user.username,
+                            email: user.email
+                        },
                   
                     token
                 })
