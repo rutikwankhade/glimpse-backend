@@ -4,6 +4,20 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 
+const getUserByToken = async (req, res) => {
+
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+        res.json(user)
+
+    } catch (err) {
+        res.status(500).send('Server error')
+
+    } 
+
+};
+
+
 const signup = async (req, res) => {
 
     let { username, email, password } = req.body;
@@ -121,4 +135,4 @@ const login = async (req, res) => {
 
 };
 
-module.exports = { signup, login };
+module.exports = { signup, login, getUserByToken };
