@@ -24,12 +24,12 @@ const getUserProfile = async (req, res) => {
 
 const addBookToCollection = async (req, res) => {
 
-    let { bookId, status, bookTitle, cover } = req.body;
+    let { bookId, status,title, cover } = req.body;
     // create a profile
     const bookdata = {
         bookId: bookId,
         status: status,
-        bookTitle: bookTitle,
+        title: title,
         cover: cover
 
     };

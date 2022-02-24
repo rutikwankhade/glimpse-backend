@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
         {
             bookId: String,
             cover: String,
-            bookTitle: String,
+            title: String,
             status:String
         }
     ],
