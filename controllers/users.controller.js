@@ -1,6 +1,26 @@
 const User = require("../models/user.model");
 
 
+const getUserProfile = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+        let user = await User.findById(id);
+
+            return res.json({
+                success: "got user profile successfully",
+                user
+            })
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+
+
+};
+
 
 const addBookToCollection = async (req, res) => {
 
@@ -63,4 +83,4 @@ const addBookToCollection = async (req, res) => {
 };
 
 
-module.exports = { addBookToCollection };
+module.exports = { addBookToCollection , getUserProfile};
