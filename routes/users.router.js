@@ -4,7 +4,7 @@ const { addBookToCollection, getUserProfile} = require("../controllers/users.con
 
 
 
-router.route("/addbook").post(addBookToCollection);
+router.route("/").post(addBookToCollection);
 router.route("/:id").get(getUserProfile);
 
 

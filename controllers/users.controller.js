@@ -40,6 +40,7 @@ const addBookToCollection = async (req, res) => {
 
         const books = user.booksCollection
 
+
         let bookExist = books.find(book => book.bookId == bookId);
         if (bookExist) {
             const index = books.indexOf(bookExist)
@@ -76,7 +77,7 @@ const addBookToCollection = async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Server Error');
+        return res.status(500).send('Server Error ff');
     }
 
 
