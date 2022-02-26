@@ -10,6 +10,11 @@ const UserSchema = new mongoose.Schema({
         unique: true,
 
     },
+    avatar: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/glimpseapp/image/upload/v1645873330/avatar_g8lfgm.png",
+    },
 
     email: {
         type: String,

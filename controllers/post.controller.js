@@ -7,7 +7,7 @@ const getAllPosts = async (req, res) => {
     try {
 
         const allPosts = await Post.find()
-            .populate({ path: "postedBy", select: "_id username" })
+            .populate({ path: "postedBy", select: "_id username avatar" })
             .sort({ createdAt: -1 });
 
         res.status(200).json({
@@ -45,7 +45,7 @@ const addPost = async (req, res) => {
         let populatedPost = await savedPost.populate([
             {
                 path: "postedBy",
-                select: "username",
+                select: "_id username avatar",
             },
 
         ]);
