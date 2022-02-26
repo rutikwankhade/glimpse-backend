@@ -1,6 +1,27 @@
 const User = require("../models/user.model");
 const Post = require("../models/post.model")
 
+
+const getAllPosts = async (req, res) => {
+
+    try {
+
+        const allPosts = await Post.find()
+            .populate({ path: "postedBy", select: "_id username" })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            message: "got all posts successfully",
+            posts: allPosts
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+};
+
 const addPost = async (req, res) => {
 
     let { bookId, primaryColor, secondaryColor, review, category, cover, title } = req.body;
@@ -47,4 +68,4 @@ const addPost = async (req, res) => {
 
 
 
-module.exports = { addPost };
+module.exports = { addPost, getAllPosts };

@@ -25,7 +25,9 @@ app.use('/api/user/addbook',auth, userRouter);
 
 app.use("/api/auth", authRouter);
 app.use("/api/auth/token",auth, authRouter);
-app.use("/api/post/",auth, postRouter);
+app.use("/api/post/addpost", auth, postRouter);
+app.use("/api/post", postRouter);
+
 
 
 
