@@ -2,6 +2,8 @@ const express = require('express');
 const connectDB = require("./db/db");
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/users.router");
+const postRouter = require("./routes/post.router");
+
 const auth = require('./middleware/auth');
 const cors = require('cors');
 
@@ -23,6 +25,7 @@ app.use('/api/user/addbook',auth, userRouter);
 
 app.use("/api/auth", authRouter);
 app.use("/api/auth/token",auth, authRouter);
+app.use("/api/post/",auth, postRouter);
 
 
 

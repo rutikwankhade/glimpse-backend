@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
-  
+
   title: { type: String, },
   primaryColor: { type: String },
   secondaryColor: { type: String },
@@ -10,11 +10,11 @@ const PostSchema = new mongoose.Schema({
   category: { type: String },
   cover: { type: String },
 
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
 
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
   },
 },
   {
