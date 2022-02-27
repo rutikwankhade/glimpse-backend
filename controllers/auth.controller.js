@@ -123,7 +123,7 @@ const login = async (req, res) => {
                         userId: user._id,
                         username: user.username,
                         email: user.email,
-                        avatar:newUser.avatar
+                        avatar:user.avatar
                     },
 
                     token
