@@ -8,10 +8,10 @@ const getUserProfile = async (req, res) => {
     try {
         let user = await User.findById(id);
 
-            return res.json({
-                success: "got user profile successfully",
-                user
-            })
+        return res.json({
+            success: "got user profile successfully",
+            user
+        })
 
     } catch (err) {
         console.error(err.message);
@@ -24,7 +24,7 @@ const getUserProfile = async (req, res) => {
 
 const addBookToCollection = async (req, res) => {
 
-    let { bookId, status,title, cover } = req.body;
+    let { bookId, status, title, cover } = req.body;
     // create a profile
     const bookdata = {
         bookId: bookId,
@@ -84,4 +84,55 @@ const addBookToCollection = async (req, res) => {
 };
 
 
-module.exports = { addBookToCollection , getUserProfile};
+
+const followUser = async (req, res) => {
+
+    const followUserId = req.params.followUserID
+
+
+    try {
+        const userToFollow = await User.findById(followUserId)
+
+        if (userToFollow.followers.indexOf(req.user.id) != -1) {
+
+            throw ({ message: "You already follow this user." });
+        } else {
+            userToFollow.followers.push(req.user.id);
+            await userToFollow.save();
+        }
+
+        await User.findByIdAndUpdate(
+            req.user.id,
+            {
+                $push: { following: followUserId },
+            },
+            {
+                new: true,
+            }
+        );
+
+        const updatedUser = await User.findById(followUserId)
+            .select("-password")
+            .populate({ path: "followers", select: "_id username avatar" })
+            .populate({ path: "following", select: "_id username avatar " });
+
+        res.status(200).json({
+            success: true,
+            message: "user followed successfully",
+            user: updatedUser,
+        });
+
+
+    } catch (err) {
+        res.json(err)
+
+    }
+
+
+};
+
+
+
+
+
+module.exports = { addBookToCollection, getUserProfile, followUser };

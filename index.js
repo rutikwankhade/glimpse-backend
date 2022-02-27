@@ -21,7 +21,9 @@ app.use(express.json({ extended: false }))
 
 //define routes
 app.use('/api/user', userRouter);
-app.use('/api/user/addbook',auth, userRouter);
+app.use('/api/user/addbook', auth, userRouter);
+app.use('/api/user/follow',auth, userRouter);
+
 
 app.use("/api/auth", authRouter);
 app.use("/api/auth/token",auth, authRouter);
