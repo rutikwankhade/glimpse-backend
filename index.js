@@ -25,6 +25,8 @@ app.use('/api/user', userRouter);
 app.use('/api/user/addbook', auth, userRouter);
 app.use('/api/user/follow', auth, userRouter);
 app.use('/api/user/unfollow', auth, userRouter)
+app.use('/api/user/update', auth, userRouter)
+
 
 app.use("/api/auth", authRouter);
 app.use("/api/auth/token", auth, authRouter);

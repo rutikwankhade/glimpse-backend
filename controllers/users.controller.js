@@ -191,6 +191,32 @@ const getUserSuggestion = async (req, res) => {
 
 
 
+const updateUserDetails = async (req, res) => {
+
+  if (req.user.id !== req.params.userId) {
+      throw ({ message: "You can't edit other user's details" });
+    }
+    
+  const { avatarUrl } = req.body;
+  const user = await User.findById(req.user.id).select("-password");
+  user.avatar= avatarUrl;
+  await user.save();
+
+  const updatedUser = await User.findById(req.user.id)
+    .select("-password")
+    .populate({ path: "followers", select: "_id username avatar" })
+    .populate({ path: "following", select: "_id username avatar" });
+
+  res.status(201).json({
+    success: true,
+    message: "Succesfully updated user details",
+    user: updatedUser,
+  });
+};
 
 
-module.exports = { addBookToCollection, getUserProfile, followReader,unfollowReader,getUserSuggestion };
+
+
+
+
+module.exports = { addBookToCollection, getUserProfile, followReader,unfollowReader,getUserSuggestion,updateUserDetails };
