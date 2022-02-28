@@ -32,6 +32,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/auth/token", auth, authRouter);
 
 app.use("/api/post/addpost", auth, postRouter);
+app.use("/api/post/feed", auth, postRouter);
+
 app.use("/api/post", postRouter);
 
 

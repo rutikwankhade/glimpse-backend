@@ -22,6 +22,30 @@ const getAllPosts = async (req, res) => {
     }
 };
 
+
+
+const getUserFeed = async (req, res) => {
+    
+  const user = await User.findById(req.user.id);
+    const feedUsers = [...user.following, req.user.id];
+    
+  const userFeedPosts = await Post.find({ postedBy: { $in: feedUsers } })
+    .populate({ path: "postedBy", select: "_id username avatar" })
+    .sort({ createdAt: -1 });
+
+
+  res.status(200).json({
+    success: true,
+    message: "got posts by people I follow",
+    posts: userFeedPosts,
+  });
+};
+
+
+
+
+
+
 const addPost = async (req, res) => {
 
     let { bookId, primaryColor, secondaryColor, review, category, cover, title } = req.body;
@@ -111,4 +135,4 @@ const getPostsByUserId = async (req, res) => {
 };
 
 
-module.exports = { addPost, getAllPosts, getReviewsByBookId ,getPostsByUserId};
+module.exports = { addPost, getAllPosts, getReviewsByBookId ,getPostsByUserId,getUserFeed};
