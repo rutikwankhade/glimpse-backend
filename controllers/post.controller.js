@@ -67,5 +67,25 @@ const addPost = async (req, res) => {
 };
 
 
+const getReviewsByBookId = async (req, res) => {
 
-module.exports = { addPost, getAllPosts };
+    try {
+        const reviews = await Post.find({ bookId: req.params.bookId })
+
+            .populate({ path: "postedBy", select: "_id username avatar" })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            message: "got all posts successfully",
+            reviews: reviews
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+};
+
+
+module.exports = { addPost, getAllPosts, getReviewsByBookId };
