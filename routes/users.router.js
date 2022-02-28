@@ -5,6 +5,7 @@ const {
         unfollowReader,
     getUserProfile,
     followReader,
+    getUserSuggestion
   
 } = require("../controllers/users.controller");
 
@@ -12,6 +13,8 @@ const {
 
 router.route("/").post(addBookToCollection);
 router.route("/:id").get(getUserProfile);
+router.route("/").get(getUserSuggestion);
+
 router.route("/:followReaderID").patch(followReader);
 router.route("/v1/:unfollowReaderID").patch(unfollowReader)
 

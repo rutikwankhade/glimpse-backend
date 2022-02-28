@@ -179,11 +179,18 @@ const addBookToCollection = async (req, res) => {
 
 
 
+const getUserSuggestion = async (req, res) => {
+    const TopUsers = await User.find().select("_id username avatar name").limit(5)
+    
+    
+    res
+    .status(200)
+    .json({ success: true, message: "got suggested readers", users: TopUsers });
+};
 
 
 
 
 
 
-
-module.exports = { addBookToCollection, getUserProfile, followReader,unfollowReader };
+module.exports = { addBookToCollection, getUserProfile, followReader,unfollowReader,getUserSuggestion };
