@@ -21,6 +21,100 @@ const getUserProfile = async (req, res) => {
 
 };
 
+//unfollow reader
+const unfollowReader = async (req, res) => {
+
+    const { unfollowReaderID } = req.params;
+
+    try {
+
+  const userToUnfollow = await User.findById(unfollowReaderID);
+  
+
+  let index = userToUnfollow.followers.indexOf(req.user.id);
+  if (userToUnfollow.followers.indexOf(req.user.id) != -1) {
+    userToUnfollow.followers.splice(index, 1);
+    await userToUnfollow.save();
+  } else {
+      throw ({ message: "You don't follow this user." });
+  }
+
+  await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $pull: { following: unfollowReaderID },
+    },
+    {
+      new: true,
+    }
+  );
+
+  const updatedProfile = await User.findById(unfollowReaderID)
+    .select("-password")
+    .populate({ path: "followers", select: "_id username avatar" })
+    .populate({ path: "following", select: "_id username avatar" });
+
+  res.status(200).json({
+    success: true,
+    message: "Unfollowed user successfully",
+    user: updatedProfile,
+  });
+
+    } catch (err) {
+        // console.error(err.message);
+        return res.status(500).send(err);
+    }
+
+
+};
+
+
+//follow a reader
+const followReader = async (req, res) => {
+
+    const { followReaderID } = req.params;
+
+    try {
+            const userToFollow = await User.findById(followReaderID)
+
+        if (userToFollow.followers.indexOf(req.user.id) != -1) {
+
+            throw({ message: "You already follow this user." });
+        } else {
+            userToFollow.followers.push(req.user.id);
+            await userToFollow.save();
+        }
+
+        await User.findByIdAndUpdate(
+            req.user.id,
+            {
+                $push: { following: followReaderID },
+            },
+            {
+                new: true,
+            }
+        );
+
+        const updatedProfile = await User.findById(followReaderID)
+            .select("-password")
+            .populate({ path: "followers", select: "_id username avatar" })
+            .populate({ path: "following", select: "_id username avatar " });
+
+    res.json({
+            success: true,
+            message: "user followed successfully",
+            user: updatedProfile,
+        });
+
+    // req.json('done')
+
+    } catch (err) {
+        // console.error(err.message);
+        return res.status(500).send(err);
+    }
+
+
+};
 
 const addBookToCollection = async (req, res) => {
 
@@ -85,54 +179,11 @@ const addBookToCollection = async (req, res) => {
 
 
 
-const followUser = async (req, res) => {
-
-    const followUserId = req.params.followUserID
-
-
-    try {
-        const userToFollow = await User.findById(followUserId)
-
-        if (userToFollow.followers.indexOf(req.user.id) != -1) {
-
-            throw ({ message: "You already follow this user." });
-        } else {
-            userToFollow.followers.push(req.user.id);
-            await userToFollow.save();
-        }
-
-        await User.findByIdAndUpdate(
-            req.user.id,
-            {
-                $push: { following: followUserId },
-            },
-            {
-                new: true,
-            }
-        );
-
-        const updatedUser = await User.findById(followUserId)
-            .select("-password")
-            .populate({ path: "followers", select: "_id username avatar" })
-            .populate({ path: "following", select: "_id username avatar " });
-
-        res.status(200).json({
-            success: true,
-            message: "user followed successfully",
-            user: updatedUser,
-        });
-
-
-    } catch (err) {
-        res.json(err)
-
-    }
-
-
-};
 
 
 
 
 
-module.exports = { addBookToCollection, getUserProfile, followUser };
+
+
+module.exports = { addBookToCollection, getUserProfile, followReader,unfollowReader };

@@ -17,23 +17,25 @@ app.use(cors());
 
 
 app.use(express.json({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 
 
 //define routes
 app.use('/api/user', userRouter);
 app.use('/api/user/addbook', auth, userRouter);
-app.use('/api/user/follow',auth, userRouter);
-
+app.use('/api/user/follow', auth, userRouter);
+app.use('/api/user/unfollow', auth, userRouter)
 
 app.use("/api/auth", authRouter);
-app.use("/api/auth/token",auth, authRouter);
+app.use("/api/auth/token", auth, authRouter);
+
 app.use("/api/post/addpost", auth, postRouter);
 app.use("/api/post", postRouter);
 
 
 
 
-app.get('/', (req, res)=>res.send('API running'))
+app.get('/', (req, res) => res.send('API running'))
 
 
 
