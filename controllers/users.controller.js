@@ -180,12 +180,12 @@ const addBookToCollection = async (req, res) => {
 
 
 const getUserSuggestion = async (req, res) => {
-    const TopUsers = await User.find().select("_id username avatar name").limit(5)
+    const latestUsers = await User.find().select("_id username avatar name").sort({date:-1}).limit(5)
     
     
     res
     .status(200)
-    .json({ success: true, message: "got suggested readers", users: TopUsers });
+    .json({ success: true, message: "got suggested readers", users: latestUsers });
 };
 
 
@@ -202,7 +202,7 @@ const updateUserDetails = async (req, res) => {
   user.avatar= avatarUrl;
   await user.save();
 
-  const updatedUser = await User.findById(req.user.id)
+  const updatedUser = await User.findById(req.params.userId)
     .select("-password")
     .populate({ path: "followers", select: "_id username avatar" })
     .populate({ path: "following", select: "_id username avatar" });
